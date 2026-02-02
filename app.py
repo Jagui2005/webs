@@ -3,4 +3,5 @@ app = Flask(__name__)
 
 @app.route("/")
 def inici():
-    return
+    
+    return"hola"
