@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center bg-white rounded-3 shadow-sm card">
+    <i class="bi bi-shield-plus text-primary mb-3" style="font-size: 5rem;"></i>
+    <h1 class="display-5 fw-bold text-dark">Centro de Salud Digital</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4 text-muted">Bienvenido a su espacio personal de salud. Desde aquí podrá gestionar sus consultas, acceder a sus resultados médicos y contactar con sus especialistas de forma totalmente segura.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="/login" class="btn btn-primary btn-lg px-4 gap-3 rounded-pill">Identificarse (Login)</a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+    <div class="col text-center">
+        <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+            <i class="bi bi-calendar-check"></i>
+        </div>
+        <h3 class="fs-4 fw-bold">Cita Previa</h3>
+        <p class="text-muted">Programe su visita presencial o telemática con su médico de cabecera.</p>
+    </div>
+    <div class="col text-center">
+        <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+            <i class="bi bi-file-medical"></i>
+        </div>
+        <h3 class="fs-4 fw-bold">Informes Clínicos</h3>
+        <p class="text-muted">Consulte y descargue sus analíticas y radiografías al instante.</p>
+    </div>
+    <div class="col text-center">
+        <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle mb-3" style="width: 60px; height: 60px; font-size: 1.5rem;">
+            <i class="bi bi-prescription2"></i>
+        </div>
+        <h3 class="fs-4 fw-bold">Receta Electrónica</h3>
+        <p class="text-muted">Renueve su medicación sin necesidad de acudir al centro.</p>
+    </div>
+</div>
+
+<footer class="mt-5 py-3 border-top text-center text-muted">
+    <small>Servicio atendido en tiempo real por el nodo EC2: <strong>{{ nodo }}</strong></small>
+</footer>
+{% endblock %}

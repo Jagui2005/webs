@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-5">
+            <h3 class="fw-bold text-primary mb-4 border-bottom pb-3">Solicitar Nueva Cita</h3>
+            <form action="/citas" method="POST">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Especialidad</label>
+                        <select class="form-select" name="especialidad" required>
+                            <option value="Medicina General">Medicina General</option>
+                            <option value="Pediatría">Pediatría</option>
+                            <option value="Traumatología">Traumatología</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Profesional Médico</label>
+                        <select class="form-select" name="medico" required>
+                        <option value="" selected disabled>Seleccione un facultativo...</option>
+                        <option value="Dra. García">Dra. García (Medicina General)</option>
+                        <option value="Dr. Morte">Dr. Morte (Traumatología)</option>
+                        <option value="Dr. Aguilar">Dr. Aguilar (Pediatría)</option>
+                        <option value="Dra. Tejero">Dra. Tejero (Enfermería)</option>
+                </select>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Fecha</label>
+                        <input type="date" class="form-control" name="fecha" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Horario</label>
+                        <select class="form-select" name="horario" required>
+                            <option value="Mañana">Mañana (08:00 - 14:00)</option>
+                            <option value="Tarde">Tarde (15:00 - 20:00)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Observaciones</label>
+                    <textarea class="form-control" name="observaciones" rows="3" placeholder="Síntomas..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary px-5 rounded-pill fw-bold">Confirmar Cita</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

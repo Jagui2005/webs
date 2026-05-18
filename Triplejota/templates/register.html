@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card p-5 shadow">
+            <div class="text-center mb-4">
+                <i class="bi bi-person-plus text-primary" style="font-size: 4rem;"></i>
+                <h2 class="fw-bold mt-2">Crear Cuenta</h2>
+                <p class="text-muted">Únete a NovaSalut</p>
+            </div>
+           
+            <form action="/register" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">DNI / NIE</label>
+                    <input type="text" class="form-control" name="dni" placeholder="12345678A" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nombre Completo</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Ej: Jose Tejero" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Contraseña</label>
+                    <input type="password" class="form-control" name="password" placeholder="Crea una contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-pill">Registrarse</button>
+            </form>
+            <div class="text-center mt-3">
+                <p class="small">¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

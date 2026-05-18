@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaSalut | Portal de Salud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body { display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f7f6; }
+        .navbar-custom { background-color: #0d6efd; }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: #ffffff; font-weight: 500; }
+        .footer { margin-top: auto; background-color: #212529; color: #adb5bd; padding: 15px 0; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/"><i class="bi bi-heart-pulse-fill me-2"></i>NovaSalut</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto align-items-center">
+    <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+    {% if session['user_id'] %}
+        <li class="nav-item"><a class="nav-link" href="/citas">Mis Citas</a></li>
+        <li class="nav-item"><a class="nav-link" href="/historial">Historial</a></li>
+        <li class="nav-item ms-3">
+            <span class="text-white me-2 small">Hola, {{ session['user_name'] }}</span>
+            <a class="btn btn-outline-light btn-sm rounded-pill" href="/logout">Salir</a>
+        </li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="/register">Registrarse</a></li>
+        <li class="nav-item ms-3">
+            <a class="btn btn-light text-primary btn-sm px-4 fw-bold rounded-pill" href="/login">Acceso</a>
+        </li>
+    {% endif %}
+</ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                {{ message }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer text-center mt-auto">
+        <div class="container"><small>&copy; 2026 NovaSalut SaaS | Infraestructura AWS | Proyecto ASIR</small></div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ================= WIDGET DE CHAT IA ================= -->
+<style>
+    #chat-widget {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 350px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        display: none; /* Oculto por defecto */
+        flex-direction: column;
+        z-index: 1050; /* Por encima de Bootstrap */
+        overflow: hidden;
+        border: 1px solid #dee2e6;
+    }
+    #chat-header {
+        background: #0d6efd; /* Azul primary de Bootstrap */
+        color: white;
+        padding: 15px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chat-messages {
+        height: 300px;
+        overflow-y: auto;
+        padding: 15px;
+        background: #f8f9fa;
+        font-size: 14px;
+    }
+    #chat-input-area {
+        display: flex;
+        padding: 10px;
+        background: white;
+        border-top: 1px solid #dee2e6;
+    }
+    #chat-input-area input {
+        flex-grow: 1;
+        border: 1px solid #ced4da;
+        border-radius: 20px;
+        padding: 8px 15px;
+        outline: none;
+    }
+    #chat-input-area button {
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    #chat-toggle-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        z-index: 1049;
+        transition: transform 0.2s;
+    }
+    #chat-toggle-btn:hover { transform: scale(1.1); }
+    .msg { margin-bottom: 12px; padding: 10px 15px; border-radius: 15px; max-width: 85%; }
+    .user-msg { background: #0d6efd; color: white; align-self: flex-end; margin-left: auto; border-bottom-right-radius: 2px;}
+    .ai-msg { background: #e9ecef; color: #212529; align-self: flex-start; margin-right: auto; border-bottom-left-radius: 2px;}
+</style>
+
+<button id="chat-toggle-btn" onclick="toggleChat()">
+    <i class="bi bi-chat-dots-fill"></i> <!-- Usa el icono de Bootstrap -->
+</button>
+
+<div id="chat-widget">
+    <div id="chat-header">
+        <span><i class="bi bi-robot"></i> Asistente Virtual</span>
+        <button onclick="toggleChat()" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">&times;</button>
+    </div>
+    <div id="chat-messages" style="display: flex; flex-direction: column;">
+        <div class="msg ai-msg">¡Hola! Soy el asistente del Centro de Salud Digital. ¿En qué te puedo ayudar hoy?</div>
+    </div>
+    <div id="chat-input-area">
+        <input type="text" id="user-input" placeholder="Escribe tu consulta..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()"><i class="bi bi-send-fill"></i></button>
+    </div>
+</div>
+
+<script>
+    function toggleChat() {
+        const chatWidget = document.getElementById('chat-widget');
+        const toggleBtn = document.getElementById('chat-toggle-btn');
+        if (chatWidget.style.display === 'none' || chatWidget.style.display === '') {
+            chatWidget.style.display = 'flex';
+            toggleBtn.style.display = 'none';
+        } else {
+            chatWidget.style.display = 'none';
+            toggleBtn.style.display = 'block';
+        }
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') sendMessage();
+    }
+
+    async function sendMessage() {
+        const inputField = document.getElementById('user-input');
+        const message = inputField.value.trim();
+        if (!message) return;
+
+        const chatMessages = document.getElementById('chat-messages');
+        
+        // Mensaje del usuario
+        chatMessages.innerHTML += `<div class="msg user-msg">${message}</div>`;
+        inputField.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // "Escribiendo..."
+        const typingId = "typing-" + Date.now();
+        chatMessages.innerHTML += `<div class="msg ai-msg" id="${typingId}">Analizando historial médico...</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            // Petición a Flask
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            });
+            const data = await response.json();
+            
+            // Reemplazar texto por la respuesta real
+            document.getElementById(typingId).innerText = data.response;
+        } catch (error) {
+            document.getElementById(typingId).innerText = "No se pudo conectar con el servidor.";
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+</body>
+</html>
+
+
